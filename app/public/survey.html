@@ -18,6 +18,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
 
 </head>
 
@@ -51,8 +53,9 @@
     <footer>
         <div class="container">
             <a href="/api/friends">API Friends List</a>
-            <span>|</span>
+             | 
             <a href="https://github.com/lucy839/FriendFinder.git">GitHub Repo</a>
+            <br>
         </div>
     </footer>
 
@@ -95,18 +98,37 @@
         for (var i in questions) {
             $("#questions").append(`<h4 id = "questionNum"> Questions${parseInt(i) + 1}</h4>\
                 <label for="question${i}">${questions[i]}</label>\
-                <select class="custom-select custom-select-sm" id = "q${parseInt(i) + 1}"></select>\   
+                <br>\
+                <select data-placeholder="" class="chosen-select" id = "q${parseInt(i) + 1}"></select>\   
                 <br><br>\                    
             `);
         }
-        $(".custom-select").append(` <option selected>Select an Options</option>\
+        $(".chosen-select").append(`<option value></option>\
             <option value="1">1 (Strongly Disagree)</option>\
             <option value="2">2</option>\
             <option value="3">3</option>\
             <option value="4">4</option>\
             <option value="5">5 (Strongly Agree)</option>\
          `);
-
+       
+         var config = {
+            '.chosen-select': {},
+            '.chosen-select-deselect': {
+                allow_single_deselect: true
+            },
+            '.chosen-select-no-single': {
+                disable_search_threshold: 10
+            },
+            '.chosen-select-no-results': {
+                no_results_text: 'Oops, nothing found!'
+            },
+            '.chosen-select-width': {
+                width: "95%"
+            }
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
         // Activate submit button
         $('#submitBtn').on('click', function (event) {
             event.preventDefault();
