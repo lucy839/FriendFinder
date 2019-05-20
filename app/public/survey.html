@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Friend Finder</title>
+
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+</head>
+
+
+<body>
+    <div class="container content">
+        <br>
+        <h2>Survey Questions</h2>
+        <hr>
+        <h4><strong>About You</strong></h4>
+        <form>
+            <div class="form-group">
+                <h5>Name (Required)</h5>
+                <input id="name" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+                <h5>Link to Photo Image(Required)</h5>
+                <input id="photo" type="text" class="form-control">
+            </div>
+            <hr>
+            <div id="questions">
+            </div>
+
+        </form>
+        <div class="text-center">
+            <button id="submitBtn" type="submit" class="btn btn-success btn-lg"><i class="fa fa-check-circle"
+                    aria-hidden="true"></i> Submit</button>
+        </div>
+    </div>
+    <hr>
+    <footer>
+        <div class="container">
+            <a href="/api/friends">API Friends List</a>
+            <span>|</span>
+            <a href="https://github.com/lucy839/FriendFinder.git">GitHub Repo</a>
+        </div>
+    </footer>
+
+    <div id="result" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><strong>Best Match</strong></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="matchName"></p>
+                    <!-- change place holder -->
+                    <img id="matchImg" src="https://via.placeholder.com/400x400"
+                        alt="Placeholder image in case user pic doesn't show">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var questions = ["Your mind is always buzzing with unexplored ideas and plans.",
+            "Generally speaking, you rely more on your experience than your imagination.",
+            "You find it easy to stay relaxed and focused even when there is some pressure.",
+            "You rarely do something just out of sheer curiosity.",
+            "People can rarely upset you.",
+            "It is often difficult for you to relate to other people’s feelings.",
+            "In a discussion, truth should be more important than people’s sensitivities.",
+            "You rarely get carried away by fantasies and ideas.",
+            "You think that everyone’s views should be respected regardless of whether"
+            + " they are supported by facts or not.",
+            "You feel more energetic after spending time with a group of people."];
+        for (var i in questions) {
+            $("#questions").append(`<h4 id = "questionNum"> Questions${parseInt(i) + 1}</h4>\
+                <label for="question${i}">${questions[i]}</label>\
+                <select class="custom-select custom-select-sm" id = "q${parseInt(i) + 1}"></select>\   
+                <br><br>\                    
+            `);
+        }
+        $(".custom-select").append(` <option selected>Select an Options</option>\
+            <option value="1">1 (Strongly Disagree)</option>\
+            <option value="2">2</option>\
+            <option value="3">3</option>\
+            <option value="4">4</option>\
+            <option value="5">5 (Strongly Agree)</option>\
+         `);
+
+        // Activate submit button
+        $('#submitBtn').on('click', function (event) {
+            event.preventDefault();
+            // Gather user inputs
+            function validateForm() {
+                var isValid = true;
+                $(".form-control").each(function () {
+                    if ($(this).val() === "") {
+                        isValid = false;
+                    }
+                });
+                $(".chosen-select").each(function () {
+                    if ($(this).val() === "") {
+                        isValid = false;
+                    }
+                });
+                return isValid;
+            }
+            if (validateForm()) {
+                var userInput = {
+                    name: $('#name').val().trim(),
+                    photo: $('#photo').val().trim(),
+                    scores: [
+                        $('#q1').val().trim(),
+                        $('#q2').val().trim(),
+                        $('#q3').val().trim(),
+                        $('#q4').val().trim(),
+                        $('#q5').val().trim(),
+                        $('#q6').val().trim(),
+                        $('#q7').val().trim(),
+                        $('#q8').val().trim(),
+                        $('#q9').val().trim(),
+                        $('#q10').val().trim()
+                    ]
+                };
+
+                // Add user inputs to friends list
+                $.post('/api/friends', userInput)
+                    .then(function (data) {
+                        // console.log('response = ' + JSON.stringify(data));
+                        // Set the name and image values of friend match
+                        console.log(data.name)
+                        $("#matchName").text(data.name);
+                        $('#matchImg').attr("src", data.photo);
+                        // Show the modal with the best match 
+                        $("#result").modal('toggle');
+                    });
+            } else {
+
+                alert("Please fill out all fields before submitting!");
+            }
+        });
+
+    </script>
+</body>
+
+
+</html>

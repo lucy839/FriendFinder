@@ -1,0 +1,33 @@
+
+
+ body {
+    width: 75%;
+   margin: 0px auto; 
+
+   display: flex;
+   min-height: 100vh;
+   flex-direction: column;
+}
+#matchImg {
+	overflow: hidden;
+	width: 400px;
+}
+body{
+    font-family: 'Poppins', sans-serif;
+}
+#questionNum{
+    font-weight: bold;
+}
+#searchBtn{
+    background:#337ab7;
+    border-color: #2e6da4;
+}
+#submitBtn {
+    padding: 10px 16px;
+    line-height: 1.3333333;
+    border-radius: 6px;
+    background:#337ab7;
+    border-color: #2e6da4;
+    display: block;
+    width: 100%;
+}
