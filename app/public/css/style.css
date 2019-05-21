@@ -1,6 +1,5 @@
-
-
- body {
+/* general */
+body {
     width: 75%;
    margin: 0px auto; 
    font-family: 'Poppins', sans-serif;
@@ -8,19 +7,32 @@
    min-height: 100vh;
    flex-direction: column;
 }
-#matchImg {
-	overflow: hidden;
-	width: 400px;
+footer {
+    padding-bottom:10px;
 }
+footer a, #links a{
+    color: #337ab7;
+}
+ #links{ 
+     margin-left: 2.5%;
+}
+
+/* home */
 .jumbotron h3{
     line-height:180%;
-}
-#questionNum{
-    font-weight: bold;
 }
 #searchBtn{
     background:#337ab7;
     border-color: #2e6da4;
+}
+
+/* survey */
+#matchImg {
+	overflow: hidden;
+	width: 400px;
+}
+#questionNum{
+    font-weight: bold;
 }
 #submitBtn {
     padding: 10px 16px;
@@ -31,10 +43,3 @@
     display: block;
     width: 100%;
 }
-footer {
-    padding-bottom:10px;
-}
-footer a, #links a{
-    color: #337ab7;
-}
- #links{ margin-left: 2.5%;}
