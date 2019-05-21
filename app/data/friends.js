@@ -1,6 +1,6 @@
+// template data to be inserted
 var friends = [
     {
-        // template data to be inserted
         name: 'Sponge Bob',
         photo: 'https://cdn.vox-cdn.com/thumbor/0jbIJZPcxu4WmYZZZQW3KNLiXns=/0x0:1024x576/1200x800/filters:focal(431x207:593x369)/cdn.vox-cdn.com/uploads/chorus_image/image/54925925/spongebob_rainbow_meme_video_16x9.0.jpg',
         scores: ['1','2','3','4','5','4','3','2','1','5']
