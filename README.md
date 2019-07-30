@@ -77,4 +77,4 @@
 -   https://afternoon-cove-53546.herokuapp.com/
 
 ## Demo
-- ![Alt text](app/public/images.demo.png?raw=true  "demo")
+- ![Alt text](app/public/images/demo.png?raw=true  "demo")
